@@ -11,14 +11,14 @@
 #dpl ?= deploy.env
 #include $(dpl)
 #export $(shell sed 's/=.*//' $(dpl))
-
+s
 # grep the version from the mix file
 #VERSION=$(shell ./version.sh)
 
 
-IMAGE_NAME=slj-tomcat
-CONTAINER_NAME=slj-dev-tomcat
-BASE_HOME=/home/sami/slj
+IMAGE_NAME=foobar-tomcat
+CONTAINER_NAME=foobar-dev-tomcat
+BASE_HOME=/home/samtm/foobar
 #prod QA dev
 BASE_ENV=dev
 
