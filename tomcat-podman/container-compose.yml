@@ -2,11 +2,11 @@ version: '3.8'
 services:
   slj-tomcat:
     build: .
-    container_name: slj-dev-tomcat
+    container_name: foobar-dev-tomcat
     volumes:
-      - /home/sami/slj/dev/webapps:/opt/tomcat/webapps:z
-      - /home/sami/slj/dev/logs:/opt/tomcat/logs:z
-      - /home/sami/slj/dev/conf:/opt/tomcat/conf:z
+      - /home/samtm/foobar/dev/webapps:/opt/tomcat/webapps:z
+      - /home/samtm/foobar/dev/logs:/opt/tomcat/logs:z
+      - /home/samtm/foobar/dev/conf:/opt/tomcat/conf:z
     ports:
       - "8080:8080"
     environment:
