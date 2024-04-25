@@ -59,5 +59,46 @@ volumes:
 
 #alias mysql='docker-compose exec -T mariadb' 
 
+#some Podman testing
+podman run -d --pod lamp-pod --name mariadb \
+    -e MYSQL_ROOT_PASSWORD=your_root_password \
+    -v mariadb_data:/var/lib/mysql \
+    --restart always \
+    mariadb:latest
+
+
+podman run -d --pod lamp-pod --name apache-php \
+    -v apache_config:/etc/apache2 \
+    -v apache_ssl:/etc/apache2/ssl \
+    -v /path/to/your/app:/var/www/html \
+    --restart always \
+    php:latest
+
+podman exec -it mariadb bash
+podman exec -it apache-php bash
+
+podman pod start lamp-pod
+podman pod stop lamp-pod
+podman pod restart lamp-pod
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 `````
