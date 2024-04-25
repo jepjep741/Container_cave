@@ -83,6 +83,38 @@ podman pod restart lamp-pod
 
 
 
+podman exec -it apache-php a2enmod ssl
+podman exec -it apache-php a2enmod rewrite
+podman exec -it apache-php a2enmod headers
+podman exec -it apache-php service apache2 restart
+<VirtualHost *:443>
+    ServerName yourdomain.com
+    ServerAlias www.yourdomain.com
+    DocumentRoot /var/www/html/your_website_directory
+
+    SSLEngine on
+    SSLCertificateFile /etc/apache2/ssl/server.crt
+    SSLCertificateKeyFile /etc/apache2/ssl/server.key
+
+    <Directory /var/www/html/your_website_directory>
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/yourdomain_error.log
+    CustomLog ${APACHE_LOG_DIR}/yourdomain_access.log combined
+</VirtualHost>
+
+podman exec -it apache-php a2ensite yourdomain.conf
+podman exec -it apache-php service apache2 restart
+
+
+<VirtualHost *:80>
+    ServerName yourdomain.com
+    ServerAlias www.yourdomain.com
+    Redirect permanent / https://yourdomain.com/
+</VirtualHost>
+
 
 
 
