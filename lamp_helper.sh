@@ -33,6 +33,7 @@ podman run -it --name $CONTAINER_NAME -v $WEB_DATA_DIR:/var/www/html:Z -v $LOG_D
   
 
     # Secure Apache by hiding server information and disabling directory listing
+    echo 'ServerName $SERVER_NAME' >> /etc/apache2/apache2.conf
     sed -i 's/ServerTokens OS/ServerTokens Prod/' /etc/apache2/conf-available/security.conf
     sed -i 's/ServerSignature On/ServerSignature Off/' /etc/apache2/conf-available/security.conf
     echo 'Options -Indexes' >> /etc/apache2/apache2.conf
