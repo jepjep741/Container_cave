@@ -5,11 +5,9 @@ IMAGE_NAME="ubuntu:latest"
 CONTAINER_NAME="apache_php_container"
 NEW_IMAGE_NAME="apache_php_image"
 HOST_PORT_HTTP=8080
-WEB_DATA_DIR="/opt//demo/webdata"
-LOG_DATA_DIR="/opt/demo/logdata"
+WEB_DATA_DIR="/opt/webdata"
+LOG_DATA_DIR="/opt/logdata"
 TIMEZONE="Europe/Helsinki"
-SERVER_NAME="localhost"
-# pre tasks--> 
 
 # Create directories for web data and logs on the host
 mkdir -p $WEB_DATA_DIR
@@ -28,18 +26,11 @@ podman pull $IMAGE_NAME
 echo "Creating and starting a new container..."
 podman run -it --name $CONTAINER_NAME -v $WEB_DATA_DIR:/var/www/html:Z -v $LOG_DATA_DIR:/var/log/apache2:Z $IMAGE_NAME /bin/bash -c "
     # Update package list
-    apt-get update
-
-    # Set the timezone
-    ln -fs /usr/share/zoneinfo/$TIMEZONE /etc/localtime
-    apt-get install -y tzdata
-    dpkg-reconfigure --frontend noninteractive tzdata
+    apt-get update  
 
     # Install Apache and PHP
     apt-get install -y apache2 php libapache2-mod-php
-
-    # Configure Apache with a default ServerName to suppress warnings
-    echo 'ServerName $SERVER_NAME' >> /etc/apache2/apache2.conf
+  
 
     # Secure Apache by hiding server information and disabling directory listing
     sed -i 's/ServerTokens OS/ServerTokens Prod/' /etc/apache2/conf-available/security.conf
@@ -63,7 +54,7 @@ podman run -it --name $CONTAINER_NAME -v $WEB_DATA_DIR:/var/www/html:Z -v $LOG_D
     # Keep the container running
     tail -f /dev/null
 "
-# post tasks--> 
+# post tasks define and variables again-->
 # Commit the container to a new image
 echo "Committing the container to a new image..."
 podman commit $CONTAINER_NAME $NEW_IMAGE_NAME
