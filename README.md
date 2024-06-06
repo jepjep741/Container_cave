@@ -43,6 +43,9 @@ sudo systemctl enable php-fpm
 ### Step 5: Install MariaDB
 Install MariaDB server and client:
 ```bash
+#create a LVM called /var/lib/mysql before installation so then you don't have to worry about Selinux Labels.
+#e.g. lvcreate -l 10%VG -n lvMariadb  vgRoot etc..
+
 sudo dnf install mariadb-server mariadb -y
 ```
 Start and enable MariaDB to start on boot:
@@ -68,14 +71,8 @@ Set the correct permissions:
 sudo chown apache:apache /var/www/html/info.php
 ```
 Open a web browser and go to `http://your_server_ip/info.php`. You should see the PHP info page displaying PHP 8.2 configuration details.
+or curl http://localhost/info.php
 
-### Step 8: Configure Firewall
-If you have a firewall enabled, allow HTTP and HTTPS traffic:
-```bash
-sudo firewall-cmd --permanent --add-service=http
-sudo firewall-cmd --permanent --add-service=https
-sudo firewall-cmd --reload
-```
 
 ### Step 9: Restart Apache
 Restart Apache to ensure all configurations are loaded:
